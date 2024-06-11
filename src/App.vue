@@ -1,30 +1,39 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <v-app>
+    <v-app-bar scroll-behavior="collapse" rounded="b-lg">
+      <v-app-bar-nav-icon icon="fas fa-bars" @click.stop="changeNavigationVisible"></v-app-bar-nav-icon>
+      <v-app-bar-title @click="$router.push('/')">Книжный</v-app-bar-title>
+    </v-app-bar>
+    <v-navigation-drawer v-if="drawer" transition="fade-transition">
+      <v-list-item title="Главная" prepend-icon="fa-solid fa-house" @click="$router.push('/')"></v-list-item>
+      <v-list-item link title="Корзина" prepend-icon="fa-solid fa-basket-shopping" @click="$router.push('/')"></v-list-item>
+      <v-list-item link title="Администрирование" prepend-icon="fa-solid fa-screwdriver-wrench" @click="$router.push('/')"></v-list-item>
+    </v-navigation-drawer>
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
+<script>
+import router from "@/router";
+
+export default {
+  data() {
+    return {
+      drawer: false,
+    }
+  },
+  methods: {
+    router() {
+      return router
+    },
+    changeNavigationVisible() {
+      this.drawer = !this.drawer;
+    }
+  }
+}
+</script>
