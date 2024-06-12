@@ -1,19 +1,25 @@
 <template>
   <v-row class="ma-4">
-    <v-col v-for="book in books" :key="book.uuid" :cols="columnCount">
+    <v-col v-for="book in sortedBooks" :key="book.uuid" cols="12" sm="6" md="3" lg="2">
       <v-card class="border-thin rounded-lg d-flex flex-column">
-        <v-img style="aspect-ratio: 9/16;"
+        <v-img style="aspect-ratio: 3/4;"
                cover
                class="flex-grow-1"
-               :src="book.cover"></v-img>
-        <v-card-text class="flex-grow-1 w-100 d-flex flex-column justify-space-between">
+               :src="book.cover">
+        </v-img>
+        <v-card-text class="flex-grow-1 w-100 d-flex flex-column justify-space-between pa-0">
           <div>
             <v-card-title class="text-truncate">{{ book.name }}</v-card-title>
-            <v-card-subtitle>{{ book.author }}, {{ formatDate(book.yearOfPublication) }}</v-card-subtitle>
-            <v-card-text>Жанр: {{ book.genre }}</v-card-text>
+            <v-card-subtitle>{{ book.author }}</v-card-subtitle>
+            <v-card-text>
+              <p>Жанр: {{ book.genre }}</p>
+              <p>Год публикации: {{ book.yearOfPublication }}</p>
+              <p>Дата добавления: {{ formatDate(book.dateOfCreation) }}</p>
+            </v-card-text>
           </div>
         </v-card-text>
-        <v-card-actions class="flex-row-reverse">
+        <v-card-actions class="d-flex justify-space-between">
+          <v-card-title class="text-red font-weight-bold">{{ book.price }} р.</v-card-title>
           <v-btn prepend-icon="fa-solid fa-cart-plus" color="cyan-lighten-1"></v-btn>
         </v-card-actions>
       </v-card>
@@ -38,9 +44,9 @@ export default {
           uuid: undefined,
           name: 'Евгений Онегин',
           author: 'А. С. Пушкин',
-          yearOfPublication: '1888-07-20',
+          yearOfPublication: '1888',
           genre: 'Роман',
-          dateOfCreation: '2024-06-12',
+          dateOfCreation: '2024-06-13',
           price: 1000,
           cover: undefined
         },
@@ -48,9 +54,9 @@ export default {
           uuid: undefined,
           name: 'Война и Мир',
           author: 'Л. Н. Толстой',
-          yearOfPublication: '1888-07-20',
+          yearOfPublication: '1888',
           genre: 'Роман',
-          dateOfCreation: '2024-06-12',
+          dateOfCreation: '2024-06-09',
           price: 1000,
           cover: undefined
         },
@@ -58,9 +64,9 @@ export default {
           uuid: undefined,
           name: 'Кирпич и Орёл',
           author: 'ZoomBySNik',
-          yearOfPublication: '2024-06-12',
+          yearOfPublication: '2024',
           genre: 'Писанина',
-          dateOfCreation: '2024-06-12',
+          dateOfCreation: '2024-06-15',
           price: 1000,
           cover: undefined
         },
@@ -68,8 +74,20 @@ export default {
     }
   },
   computed: {
-    columnCount() {
-      return this.$store.state.isSidebarOpen ? 3 : 2; // Количество колонок в зависимости от состояния боковой панели
+    sortedBooks() {
+      let sortedBooks = [...this.books];
+      sortedBooks = sortedBooks.sort((a, b) => {
+        let dateA = new Date(a.dateOfCreation);
+        let dateB = new Date(b.dateOfCreation);
+        if (dateA < dateB) {
+          return 1
+        } else if (dateA > dateB) {
+          return -1
+        } else {
+          return 0
+        }
+      });
+      return sortedBooks
     }
   },
   methods: {
