@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import {booksModule} from "@/store/booksModule";
 
 export default createStore({
   state: {
@@ -14,5 +15,6 @@ export default createStore({
   actions: {
   },
   modules: {
+    books: booksModule,
   }
 })

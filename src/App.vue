@@ -1,14 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar scroll-behavior="collapse" rounded="b-lg">
-      <v-app-bar-nav-icon icon="fas fa-bars" @click.stop="toggleSidebarOpen"></v-app-bar-nav-icon>
-      <v-app-bar-title @click="$router.push('/')">Книжный</v-app-bar-title>
-    </v-app-bar>
-    <v-navigation-drawer v-if="isSidebarOpen" transition="fade-transition">
-      <v-list-item title="Главная" prepend-icon="fa-solid fa-house" @click="goTo('/')"></v-list-item>
-      <v-list-item link title="Корзина" prepend-icon="fa-solid fa-basket-shopping" @click="goTo('/')"></v-list-item>
-      <v-list-item link title="Администрирование" prepend-icon="fa-solid fa-screwdriver-wrench" @click="goTo('/')"></v-list-item>
-    </v-navigation-drawer>
+    <my-navigation/>
     <v-main>
       <router-view/>
     </v-main>
@@ -21,8 +13,10 @@
 <script>
 import router from "@/router";
 import {mapMutations, mapState} from "vuex";
+import MyNavigation from "@/components/UI/MyNavigation.vue";
 
 export default {
+  components: {MyNavigation},
   data() {
     return {
 
