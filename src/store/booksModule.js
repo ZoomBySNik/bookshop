@@ -37,10 +37,10 @@ export const booksModule = {
             },
         ],
         sorting: [
-            {value: 'dateNewest', name: 'По дате (с новых)'},
-            {value: 'dateOldest', name: 'По дате (со старых)'},
-            {value: 'author', name: 'По автору'},
-            {value: 'genre', name: 'По жанру'}
+            {value: 'dateNewest', title: 'По дате (с новых)'},
+            {value: 'dateOldest', title: 'По дате (со старых)'},
+            {value: 'author', title: 'По автору'},
+            {value: 'genre', title: 'По жанру'}
         ],
         selectedSort: 'dateNewest',
         authors: [],
@@ -120,6 +120,9 @@ export const booksModule = {
             );
             state.books = [...state.books];
         },
+        setSelectedSort(state, sort) {
+            state.selectedSort = sort;
+        }
     },
     actions: {},
 };

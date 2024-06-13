@@ -1,8 +1,19 @@
 <template>
   <v-container>
-    <div class="d-flex flex-row align-start ga-4">
-      <v-btn prepend-icon="fa-solid fa-wand-magic-sparkles" variant="elevated">Создать случайные заметки</v-btn>
-      <v-btn prepend-icon="fa-solid fa-plus" variant="elevated">Создать заметку</v-btn>
+    <div class="d-flex flex-column ga-8">
+      <div class="d-flex flex-row align-start ga-4">
+        <v-btn prepend-icon="fa-solid fa-wand-magic-sparkles" variant="elevated">Создать случайные заметки</v-btn>
+        <v-btn prepend-icon="fa-solid fa-plus" variant="elevated">Создать заметку</v-btn>
+      </div>
+      <div class="d-flex flex-row align-start ga-4">
+        <v-select
+            :items="sorting"
+            @update:model-value="setSelectedSort"
+            variant="underlined"
+            density="comfortable"
+            label="Сортировка книг"
+        ></v-select>
+      </div>
     </div>
     <v-row class="ma-4">
       <v-col v-for="book in sortedBooks" :key="book.uuid" cols="12" sm="6" md="3" lg="2">
@@ -47,7 +58,9 @@ export default {
   computed: {
     ...mapState({
       covers: state => state.books.covers,
-      books: state => state.books.books
+      books: state => state.books.books,
+      sorting: state => state.books.sorting,
+      selectedSort: state => state.books.selectedSort,
     }),
     ...mapGetters({
       sortedBooks: 'books/sortedBooks',
@@ -57,6 +70,7 @@ export default {
     ...mapMutations({
       pushBook: 'books/pushBook',
       setBooks: 'books/setBooks',
+      setSelectedSort: 'books/setSelectedSort',
     }),
     formatDate(dateString) {
       const options = {year: 'numeric', month: 'long', day: 'numeric'};

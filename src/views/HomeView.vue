@@ -1,5 +1,14 @@
 <template>
   <v-container>
+    <div class="d-flex flex-row align-start ga-4">
+      <v-select
+          :items="sorting"
+          @update:model-value="setSelectedSort"
+          variant="underlined"
+          density="comfortable"
+          label="Сортировка книг"
+      ></v-select>
+    </div>
     <v-row class="ma-4">
       <v-col v-for="book in sortedBooks" :key="book.uuid" cols="12" sm="6" md="3" lg="2">
         <v-card class="border-thin rounded-lg d-flex flex-column">
@@ -40,7 +49,9 @@ export default {
   computed: {
     ...mapState({
       covers: state => state.books.covers,
-      books: state => state.books.books
+      books: state => state.books.books,
+      sorting: state => state.books.sorting,
+      selectedSort: state => state.books.selectedSort,
     }),
     ...mapGetters({
       sortedBooks: 'books/sortedBooks',
@@ -50,6 +61,7 @@ export default {
     ...mapMutations({
       pushBook: 'books/pushBook',
       setBooks: 'books/setBooks',
+      setSelectedSort: 'books/setSelectedSort',
     }),
     formatDate(dateString) {
       const options = {year: 'numeric', month: 'long', day: 'numeric'};
