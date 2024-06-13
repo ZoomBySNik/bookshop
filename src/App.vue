@@ -10,6 +10,7 @@
 <style>
 
 </style>
+
 <script>
 import router from "@/router";
 import {mapMutations, mapState} from "vuex";

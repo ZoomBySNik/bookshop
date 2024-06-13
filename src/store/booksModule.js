@@ -39,6 +39,8 @@ export const booksModule = {
         sorting: [
             {value: 'dateNewest', title: 'По дате (с новых)'},
             {value: 'dateOldest', title: 'По дате (со старых)'},
+            {value: 'priceCheapest', title: 'По цене (с дешёвых)'},
+            {value: 'priceMostExpensive', title: 'По цене (с дорогих)'},
             {value: 'author', title: 'По автору'},
             {value: 'genre', title: 'По жанру'}
         ],
@@ -76,6 +78,12 @@ export const booksModule = {
                         }
                     });
                     break;
+                case 'priceCheapest':
+                    sortedBooks = sortedBooks.sort((a, b) => a.price - b.price);
+                    break;
+                case 'priceMostExpensive':
+                    sortedBooks = sortedBooks.sort((a, b) => b.price - a.price);
+                    break;
                 case 'author':
                     sortedBooks.sort((a, b) => a.author.localeCompare(b.author));
                     break;
@@ -98,7 +106,7 @@ export const booksModule = {
         setAuthors(state) {
             let uniqueAuthors = [];
             state.books.forEach(book => {
-                if (!uniqueAuthors.includes(book.author)){
+                if (!uniqueAuthors.includes(book.author)) {
                     uniqueAuthors.push(book.author);
                 }
             })
@@ -107,7 +115,7 @@ export const booksModule = {
         setGenres(state) {
             let uniqueGenres = [];
             state.books.forEach(book => {
-                if (!uniqueGenres.includes(book.genre)){
+                if (!uniqueGenres.includes(book.genre)) {
                     uniqueGenres.push(book.genre);
                 }
             })
@@ -124,5 +132,65 @@ export const booksModule = {
             state.selectedSort = sort;
         }
     },
-    actions: {},
+    actions: {
+        createRandomBook({state, commit}) {
+            const adjectives = [
+                'Таинственная', 'Забытая', 'Опасная', 'Вечная', 'Магическая',
+                'Заброшенная', 'Затерянная', 'Легендарная', 'Мистическая',
+                'Древняя', 'Запрещённая', 'Проклятая', 'Скрытая', 'Исчезнувшая',
+                'Обречённая', 'Таинственная', 'Бессмертная', 'Затонувшая',
+                'Прекрасная', 'Забытая', 'Дикая', 'Легендарная', 'Ужасная',
+                'Огненная', 'Водяная', 'Страшная', 'Могучая'
+            ];
+            const nouns = [
+                'книга', 'тайна', 'загадка', 'приключение', 'история',
+                'сага', 'легенда', 'хроника', 'эпопея', 'дневник',
+                'сказание', 'повесть', 'роман', 'рассказ', 'миф',
+                'поэма', 'трилогия', 'сага', 'новелла', 'баллада',
+                'песня', 'летопись', 'очерк', 'новелла', 'эссе',
+                'приключение', 'легенда'
+            ];
+            const phrases = [
+                'забытых времён', 'скрытых миров', 'древних царств', 'ночных кошмаров', 'потерянных душ',
+                'вечных странников', 'заколдованных лесов', 'тайных обрядов', 'странных существ',
+                'волшебных земель', 'магических тайн', 'невидимых границ'
+            ];
+            const authorLastNames = [
+                'Иванов', 'Петров', 'Сидоров', 'Кузнецов', 'Смирнов',
+                'Попов', 'Алексеев', 'Лебедев', 'Семёнов', 'Егоров',
+                'Павлов', 'Козлов', 'Степанов', 'Николаев', 'Орлов',
+                'Андреев', 'Макаров', 'Новиков', 'Морозов', 'Волков',
+                'Зайцев', 'Соловьёв', 'Борисов', 'Королёв', 'Григорьев',
+                'Романов', 'Васильев', 'Петухов', 'Фёдоров', 'Михайлов'
+            ];
+            const genres = [
+                'Фантастика', 'Фэнтези', 'Детектив', 'Триллер', 'Роман',
+                'Приключения', 'Исторический', 'Ужасы', 'Научная фантастика', 'Драма',
+                'Комедия', 'Мистика', 'Поэзия',
+                'Психология', 'Документальный', 'Философия', 'Мемуары', 'Биография'
+            ];
+
+            function getRandomElement(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+
+            function getRandomDate(start, end) {
+                const startDate = new Date(start);
+                const endDate = new Date(end);
+                const randomDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
+                return randomDate.toISOString().split('T')[0];
+            }
+
+            commit('pushBook', {
+                name: `${getRandomElement(adjectives)} ${getRandomElement(nouns)} ${getRandomElement(phrases)}`,
+                author: `${String.fromCharCode(1040 + Math.floor(Math.random() * 32))}. ${String.fromCharCode(1040 + Math.floor(Math.random() * 32))}. ${getRandomElement(authorLastNames)}`,
+                dateOfPublication: `${getRandomDate('1800-01-01', '2024-06-13')}`,
+                genre: `${getRandomElement(genres)}`,
+                price: Math.floor(Math.random() * 2000) + 500,
+                cover: getRandomElement(state.covers)
+            });
+            commit('setAuthors');
+            commit('setGenres');
+        }
+    },
 };
