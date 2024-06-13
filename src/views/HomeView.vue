@@ -13,7 +13,7 @@
       <v-col v-for="book in sortedBooks" :key="book.uuid" cols="12" sm="6" md="3" lg="2">
         <book-card :book="book">
           <template #actions>
-            <v-btn icon="fa-solid fa-cart-plus" color="blue-darken-1" variant="elevated"></v-btn>
+            <v-btn icon="fa-solid fa-cart-plus" color="info" variant="tonal" size="small"></v-btn>
           </template>
         </book-card>
       </v-col>

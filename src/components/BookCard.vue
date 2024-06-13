@@ -1,6 +1,10 @@
 <template>
   <v-card class="border-thin rounded-lg d-flex flex-column h-100">
-    <v-img style="aspect-ratio: 3/4;" cover class="h-58" :src="book.cover"></v-img>
+    <v-img style="aspect-ratio: 3/4;" cover class="h-58" :src="book.cover">
+      <div class="d-flex flex-row-reverse">
+        <slot name="delete-checkbox"></slot>
+      </div>
+    </v-img>
     <v-card-text class="h-30 d-flex flex-column justify-space-between pa-0">
       <div>
         <v-card-title class="text-truncate" v-tooltip:="book.name">{{ book.name }}</v-card-title>
@@ -11,9 +15,9 @@
         </v-card-text>
       </div>
     </v-card-text>
-    <v-card-actions class="d-flex justify-space-between h-12">
+    <v-card-actions class="d-flex justify-space-between h-12 pa-4">
       <v-card-title class="text-red font-weight-bold">{{ book.price }} р.</v-card-title>
-      <div>
+      <div class="d-flex flex-row ga-2">
         <slot name="actions"></slot>
       </div>
     </v-card-actions>
