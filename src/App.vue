@@ -28,11 +28,15 @@ export default {
     },
     ...mapMutations({
       toggleSidebarOpen: "toggleSidebarOpen",
+      setRandomCovers: 'books/setRandomCovers',
+      setAuthors: 'books/setAuthors',
+      setGenres: 'books/setGenres',
     }),
-    goTo(route){
-      this.toggleSidebarOpen();
-      this.$router.push(route);
-    },
+  },
+  mounted() {
+    this.setRandomCovers();
+    this.setAuthors();
+    this.setGenres();
   },
   computed: {
     ...mapState({

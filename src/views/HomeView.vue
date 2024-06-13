@@ -20,7 +20,7 @@
           </v-card-text>
           <v-card-actions class="d-flex justify-space-between">
             <v-card-title class="text-red font-weight-bold">{{ book.price }} р.</v-card-title>
-            <v-btn prepend-icon="fa-solid fa-cart-plus" color="cyan-lighten-1"></v-btn>
+            <v-btn icon="fa-solid fa-cart-plus" color="cyan-lighten-1" variant="tonal"></v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -50,15 +50,11 @@ export default {
     ...mapMutations({
       pushBook: 'books/pushBook',
       setBooks: 'books/setBooks',
-      setRandomCovers: 'books/setRandomCovers',
     }),
     formatDate(dateString) {
       const options = {year: 'numeric', month: 'long', day: 'numeric'};
       return new Date(dateString).toLocaleDateString('ru-RU', options);
     },
-  },
-  beforeMount() {
-    this.setRandomCovers();
   },
   components: {},
 }

@@ -36,23 +36,55 @@ export const booksModule = {
                 cover: undefined
             },
         ],
+        sorting: [
+            {value: 'dateNewest', name: 'По дате (с новых)'},
+            {value: 'dateOldest', name: 'По дате (со старых)'},
+            {value: 'author', name: 'По автору'},
+            {value: 'genre', name: 'По жанру'}
+        ],
+        selectedSort: 'dateNewest',
         authors: [],
         genres: [],
     }),
     getters: {
         sortedBooks(state) {
             let sortedBooks = [...state.books];
-            sortedBooks = sortedBooks.sort((a, b) => {
-                let dateA = new Date(a.dateOfPublication);
-                let dateB = new Date(b.dateOfPublication);
-                if (dateA < dateB) {
-                    return 1
-                } else if (dateA > dateB) {
-                    return -1
-                } else {
-                    return 0
-                }
-            });
+            switch (state.selectedSort) {
+                case 'dateNewest':
+                    sortedBooks = sortedBooks.sort((a, b) => {
+                        let dateA = new Date(a.dateOfPublication);
+                        let dateB = new Date(b.dateOfPublication);
+                        if (dateA < dateB) {
+                            return 1
+                        } else if (dateA > dateB) {
+                            return -1
+                        } else {
+                            return 0
+                        }
+                    });
+                    break;
+                case 'dateOldest':
+                    sortedBooks = sortedBooks.sort((a, b) => {
+                        let dateA = new Date(a.dateOfPublication);
+                        let dateB = new Date(b.dateOfPublication);
+                        if (dateA > dateB) {
+                            return 1
+                        } else if (dateA < dateB) {
+                            return -1
+                        } else {
+                            return 0
+                        }
+                    });
+                    break;
+                case 'author':
+                    sortedBooks.sort((a, b) => a.author.localeCompare(b.author));
+                    break;
+                case 'genre':
+                    sortedBooks.sort((a, b) => a.genre.localeCompare(b.genre));
+                    break;
+                default:
+                    break;
+            }
             return sortedBooks
         },
     },
@@ -63,6 +95,24 @@ export const booksModule = {
         setBooks(state, books) {
             state.books = books;
         },
+        setAuthors(state) {
+            let uniqueAuthors = [];
+            state.books.forEach(book => {
+                if (!uniqueAuthors.includes(book.author)){
+                    uniqueAuthors.push(book.author);
+                }
+            })
+            state.authors = uniqueAuthors;
+        },
+        setGenres(state) {
+            let uniqueGenres = [];
+            state.books.forEach(book => {
+                if (!uniqueGenres.includes(book.genre)){
+                    uniqueGenres.push(book.genre);
+                }
+            })
+            state.genres = uniqueGenres;
+        },
         setRandomCovers(state) {
             state.books.forEach(book => {
                     book.cover = state.covers[Math.floor(Math.random() * state.covers.length)];
@@ -70,9 +120,6 @@ export const booksModule = {
             );
             state.books = [...state.books];
         },
-    },
-    beforeMount() {
-
     },
     actions: {},
 };
