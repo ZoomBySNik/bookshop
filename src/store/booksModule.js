@@ -2,6 +2,7 @@ import cover1 from "@/assets/bookscovers/random-book-cover-1.webp";
 import cover2 from "@/assets/bookscovers/random-book-cover-2.webp";
 import cover3 from "@/assets/bookscovers/random-book-cover-3.webp";
 import cover4 from "@/assets/bookscovers/random-book-cover-4.webp";
+import {v4 as uuidv4} from "uuid";
 
 export const booksModule = {
     namespaced: true, // Переносим namespaced сюда
@@ -180,6 +181,7 @@ export const booksModule = {
             }
 
             commit('pushBook', {
+                uuid: uuidv4(),
                 name: `${getRandomElement(adjectives)} ${getRandomElement(nouns)} ${getRandomElement(phrases)}`,
                 author: `${String.fromCharCode(1040 + Math.floor(Math.random() * 32))}. ${String.fromCharCode(1040 + Math.floor(Math.random() * 32))}. ${getRandomElement(authorLastNames)}`,
                 dateOfPublication: `${getRandomDate('1800-01-01', '2024-06-13')}`,
@@ -187,6 +189,23 @@ export const booksModule = {
                 price: Math.floor(Math.random() * 2000) + 500,
                 cover: getRandomElement(state.covers)
             });
+            commit('setAuthors');
+            commit('setGenres');
+        },
+        createBook({state, commit}, book){
+            commit('pushBook', book);
+            commit('setAuthors');
+            commit('setGenres');
+        },
+        updateBook({state, commit}, book){
+            let books = [...state.books.filter(item => item.uuid !== book.uuid)];
+            commit('setBooks', [...books, book]);
+            commit('setAuthors');
+            commit('setGenres');
+        },
+        deleteBook({state, commit}, book){
+            let books = [...state.books.filter(item => item.uuid !== book.uuid)];
+            commit('setBooks', [...books]);
             commit('setAuthors');
             commit('setGenres');
         }

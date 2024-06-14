@@ -1,9 +1,15 @@
 <script>
 
-import {mapMutations, mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 import {v4 as uuidv4} from "uuid";
 
 export default {
+  props: {
+    book: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     return {
       createBookDialog: false,
@@ -26,21 +32,35 @@ export default {
     }),
   },
   methods: {
-    ...mapMutations({
-      pushBook: 'books/pushBook',
+    ...mapActions({
+      createBook: 'books/createBook',
+      updateBook: 'books/updateBook',
     }),
+    openDialog(){
+      if(this.book){
+        this.newBook = this.book;
+        this.createBookDialog = true
+      } else {
+        this.createBookDialog = true;
+      }
+    },
     updateDate(val) {
       console.log(val)
       this.newBook.dateOfPublication = val.toISOString().split('T')[0];
       this.datePicker = false;
     },
     submitBookForm() {
-      const newBook = {
-        ...this.newBook,
-        uuid: uuidv4(),
-        cover: this.covers[Math.floor(Math.random() * this.covers.length)],
-      };
-      this.pushBook(newBook);
+      if(this.book){
+        this.updateBook(this.newBook);
+      } else{
+        const newBook = {
+          ...this.newBook,
+          uuid: uuidv4(),
+          cover: this.covers[Math.floor(Math.random() * this.covers.length)],
+        };
+        this.createBook(newBook);
+
+      }
       this.createBookDialog = false;
       this.resetForm();
     },
@@ -59,13 +79,25 @@ export default {
 </script>
 
 <template>
-  <v-btn
-      @click="createBookDialog=true"
-      prepend-icon="fa-solid fa-plus"
-      variant="elevated"
-      rounded="xl"
-  >Создать книгу
-  </v-btn>
+  <div>
+    <v-btn
+        v-if="book"
+        @click="openDialog"
+        icon="fa-solid fa-pen-to-square"
+        color="info"
+        variant="tonal"
+        size="small"
+    ></v-btn>
+    <v-btn
+        v-else
+        @click="openDialog"
+        prepend-icon="fa-solid fa-plus"
+        variant="elevated"
+        rounded="xl"
+    >
+      Создать книгу
+    </v-btn>
+  </div>
   <v-dialog v-model="createBookDialog" max-width="600px">
     <v-card class="pa-4">
       <v-card-text>
@@ -90,7 +122,7 @@ export default {
 
         <v-text-field v-model="newBook.genre" label="Жанр" required></v-text-field>
         <v-text-field v-model="newBook.price" label="Цена" type="number" required></v-text-field>
-        <v-btn type="submit" color="primary">Добавить</v-btn>
+        <v-btn type="submit" color="primary">Сохранить</v-btn>
       </v-form>
     </v-card>
   </v-dialog>

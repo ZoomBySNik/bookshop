@@ -68,7 +68,7 @@
 
           </template>
           <template #actions>
-            <v-btn icon="fa-solid fa-pen-to-square" color="info" variant="tonal" size="small"></v-btn>
+            <create-book-dialog :book="book"></create-book-dialog>
           </template>
         </book-card>
       </v-col>
@@ -110,6 +110,7 @@ export default {
     }),
     ...mapActions({
       createRandomBook: 'books/createRandomBook',
+      deleteBook: 'books/deleteBook',
     }),
     generateBooks(count) {
       for (let i = 0; i < count; i++) {
@@ -132,7 +133,9 @@ export default {
       }
     },
     confirmDeleting() {
-      this.setBooks([...this.books.filter(item => !this.deletingArray.includes(item))]);
+      this.deletingArray.forEach(book => {
+        this.deleteBook(book);
+      });
       this.deletingArray = [];
       this.deletionDialog = false;
       this.deletingMode = false;
