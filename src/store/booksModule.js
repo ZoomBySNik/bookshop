@@ -2,41 +2,13 @@ import cover1 from "@/assets/bookscovers/random-book-cover-1.webp";
 import cover2 from "@/assets/bookscovers/random-book-cover-2.webp";
 import cover3 from "@/assets/bookscovers/random-book-cover-3.webp";
 import cover4 from "@/assets/bookscovers/random-book-cover-4.webp";
-import {v4 as uuidv4} from "uuid";
+import axios from "axios";
 
 export const booksModule = {
-    namespaced: true, // Переносим namespaced сюда
+    namespaced: true,
     state: () => ({
         covers: [cover1, cover2, cover3, cover4],
-        books: [
-            {
-                uuid: 1,
-                name: 'Евгений Онегин',
-                author: 'А. С. Пушкин',
-                dateOfPublication: '1888-06-13',
-                genre: 'Роман',
-                price: 1000,
-                cover: undefined
-            },
-            {
-                uuid: 2,
-                name: 'Война и Мир',
-                author: 'Л. Н. Толстой',
-                dateOfPublication: '1888-06-09',
-                genre: 'Роман',
-                price: 1000,
-                cover: undefined
-            },
-            {
-                uuid: 3,
-                name: 'Кирпич и Орёл',
-                author: 'ZoomBySNik',
-                dateOfPublication: '2024-06-15',
-                genre: 'Писанина',
-                price: 1000,
-                cover: undefined
-            },
-        ],
+        books: [],
         sorting: [
             {value: 'dateNewest', title: 'По дате (с новых)'},
             {value: 'dateOldest', title: 'По дате (со старых)'},
@@ -48,36 +20,18 @@ export const booksModule = {
         selectedSort: 'dateNewest',
         authors: [],
         genres: [],
+        apiKey: '9a95ff4592054a0497fbc22ccba11e15',
+        url: 'https://crudcrud.com/api',
     }),
     getters: {
         sortedBooks(state) {
             let sortedBooks = [...state.books];
             switch (state.selectedSort) {
                 case 'dateNewest':
-                    sortedBooks = sortedBooks.sort((a, b) => {
-                        let dateA = new Date(a.dateOfPublication);
-                        let dateB = new Date(b.dateOfPublication);
-                        if (dateA < dateB) {
-                            return 1
-                        } else if (dateA > dateB) {
-                            return -1
-                        } else {
-                            return 0
-                        }
-                    });
+                    sortedBooks = sortedBooks.sort((a, b) => new Date(b.dateOfPublication) - new Date(a.dateOfPublication));
                     break;
                 case 'dateOldest':
-                    sortedBooks = sortedBooks.sort((a, b) => {
-                        let dateA = new Date(a.dateOfPublication);
-                        let dateB = new Date(b.dateOfPublication);
-                        if (dateA > dateB) {
-                            return 1
-                        } else if (dateA < dateB) {
-                            return -1
-                        } else {
-                            return 0
-                        }
-                    });
+                    sortedBooks = sortedBooks.sort((a, b) => new Date(a.dateOfPublication) - new Date(b.dateOfPublication));
                     break;
                 case 'priceCheapest':
                     sortedBooks = sortedBooks.sort((a, b) => a.price - b.price);
@@ -94,47 +48,71 @@ export const booksModule = {
                 default:
                     break;
             }
-            return sortedBooks
+            return sortedBooks;
         },
     },
     mutations: {
-        pushBook(state, book) {
-            state.books = [...state.books, book];
-        },
         setBooks(state, books) {
             state.books = books;
         },
+        pushBook(state, book) {
+            state.books.push(book);
+        },
         setAuthors(state) {
-            let uniqueAuthors = [];
-            state.books.forEach(book => {
-                if (!uniqueAuthors.includes(book.author)) {
-                    uniqueAuthors.push(book.author);
-                }
-            })
-            state.authors = uniqueAuthors;
+            state.authors = [...new Set(state.books.map(book => book.author))];
         },
         setGenres(state) {
-            let uniqueGenres = [];
-            state.books.forEach(book => {
-                if (!uniqueGenres.includes(book.genre)) {
-                    uniqueGenres.push(book.genre);
-                }
-            })
-            state.genres = uniqueGenres;
-        },
-        setRandomCovers(state) {
-            state.books.forEach(book => {
-                    book.cover = state.covers[Math.floor(Math.random() * state.covers.length)];
-                }
-            );
-            state.books = [...state.books];
+            state.genres = [...new Set(state.books.map(book => book.genre))];
         },
         setSelectedSort(state, sort) {
             state.selectedSort = sort;
         }
     },
     actions: {
-        createRandomBook({state, commit}) {
+        async fetchBooks({state, commit}) {
+            try {
+                const response = await axios.get(`${state.url}/${state.apiKey}/books`);
+                commit('setBooks', response.data);
+                commit('setAuthors');
+                commit('setGenres');
+            } catch (error) {
+                console.error('Error fetching books:', error);
+            }
+        },
+        async createBook({state, commit}, book) {
+            try {
+                const response = await axios.post(`${state.url}/${state.apiKey}/books`, book);
+                commit('pushBook', response.data);
+                commit('setAuthors');
+                commit('setGenres');
+            } catch (error) {
+                console.error('Error creating book:', error);
+            }
+        },
+        async updateBook({state, commit}, book) {
+            try {
+                let { _id, ...bookWithoutId } = book;
+                const response = await axios.put(`${state.url}/${state.apiKey}/books/${book._id}`, bookWithoutId);
+                const updatedBooks = state.books.map(b => (b._id === book._id ? response.data : b));
+                commit('setBooks', updatedBooks);
+                commit('setAuthors');
+                commit('setGenres');
+            } catch (error) {
+                console.error('Error updating book:', error);
+            }
+        },
+        async deleteBook({state, commit}, book) {
+            try {
+                await axios.delete(`${state.url}/${state.apiKey}/books/${book._id}`);
+                const updatedBooks = state.books.filter(item => item._id !== book._id);
+                commit('setBooks', updatedBooks);
+                commit('setAuthors');
+                commit('setGenres');
+            } catch (error) {
+                console.error('Error deleting book:', error);
+            }
+        },
+        createRandomBook({state, dispatch}) {
             const adjectives = [
                 'Таинственная', 'Забытая', 'Опасная', 'Вечная', 'Магическая',
                 'Заброшенная', 'Затерянная', 'Легендарная', 'Мистическая',
@@ -180,34 +158,15 @@ export const booksModule = {
                 return randomDate.toISOString().split('T')[0];
             }
 
-            commit('pushBook', {
-                uuid: uuidv4(),
+            let book = {
                 name: `${getRandomElement(adjectives)} ${getRandomElement(nouns)} ${getRandomElement(phrases)}`,
                 author: `${String.fromCharCode(1040 + Math.floor(Math.random() * 32))}. ${String.fromCharCode(1040 + Math.floor(Math.random() * 32))}. ${getRandomElement(authorLastNames)}`,
-                dateOfPublication: `${getRandomDate('1800-01-01', '2024-06-13')}`,
-                genre: `${getRandomElement(genres)}`,
+                dateOfPublication: getRandomDate('1800-01-01', '2024-06-13'),
+                genre: getRandomElement(genres),
                 price: Math.floor(Math.random() * 2000) + 500,
                 cover: getRandomElement(state.covers)
-            });
-            commit('setAuthors');
-            commit('setGenres');
-        },
-        createBook({state, commit}, book){
-            commit('pushBook', book);
-            commit('setAuthors');
-            commit('setGenres');
-        },
-        updateBook({state, commit}, book){
-            let books = [...state.books.filter(item => item.uuid !== book.uuid)];
-            commit('setBooks', [...books, book]);
-            commit('setAuthors');
-            commit('setGenres');
-        },
-        deleteBook({state, commit}, book){
-            let books = [...state.books.filter(item => item.uuid !== book.uuid)];
-            commit('setBooks', [...books]);
-            commit('setAuthors');
-            commit('setGenres');
+            };
+            dispatch('createBook', book);
         }
     },
 };

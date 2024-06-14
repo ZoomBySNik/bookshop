@@ -1,48 +1,47 @@
 <template>
   <v-app>
-    <my-navigation/>
+    <my-navigation />
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <style>
-
 </style>
 
 <script>
-import router from "@/router";
-import {mapMutations, mapState} from "vuex";
+import { mapMutations, mapState, mapActions } from "vuex";
 import MyNavigation from "@/components/UI/MyNavigation.vue";
 
 export default {
-  components: {MyNavigation},
+  components: { MyNavigation },
   data() {
-    return {
-
-    }
+    return {};
   },
   methods: {
-    router() {
-      return router
-    },
+    ...mapActions({
+      fetchBooks: 'books/fetchBooks',
+    }),
     ...mapMutations({
       toggleSidebarOpen: "toggleSidebarOpen",
-      setRandomCovers: 'books/setRandomCovers',
       setAuthors: 'books/setAuthors',
       setGenres: 'books/setGenres',
     }),
   },
-  mounted() {
-    this.setRandomCovers();
-    this.setAuthors();
-    this.setGenres();
+  async mounted() {
+    try {
+      await this.fetchBooks();
+      this.setAuthors();
+      this.setGenres();
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
   },
   computed: {
     ...mapState({
       isSidebarOpen: state => state.isSidebarOpen,
-    })
-  }
-}
+    }),
+  },
+};
 </script>

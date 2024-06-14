@@ -1,7 +1,6 @@
 <script>
 
 import {mapActions, mapState} from "vuex";
-import {v4 as uuidv4} from "uuid";
 
 export default {
   props: {
@@ -55,7 +54,6 @@ export default {
       } else{
         const newBook = {
           ...this.newBook,
-          uuid: uuidv4(),
           cover: this.covers[Math.floor(Math.random() * this.covers.length)],
         };
         this.createBook(newBook);
@@ -66,7 +64,6 @@ export default {
     },
     resetForm() {
       this.newBook = {
-        uuid: '',
         name: '',
         author: '',
         dateOfPublication: '',
