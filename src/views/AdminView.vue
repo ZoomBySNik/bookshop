@@ -10,20 +10,42 @@
               rounded="xl"
           >Создать 5 случайных книг
           </v-btn>
-          <v-btn
-              prepend-icon="fa-solid fa-plus"
-              variant="elevated"
-              rounded="xl"
-          >Создать книгу
-          </v-btn>
+          <create-book-dialog></create-book-dialog>
         </div>
-        <v-btn
-            prepend-icon="fa-solid fa-trash"
-            class="align-self-end"
-            rounded="xl"
-            @click="toggleDeletingMode"
-        >Удалить несколько
-        </v-btn>
+        <div>
+          <v-btn
+              prepend-icon="fa-solid fa-trash"
+              class="align-self-end"
+              rounded="xl"
+              @click="toggleDeletingMode"
+          >Удалить несколько
+          </v-btn>
+          <v-snackbar
+              v-model="deletingMode"
+              :timeout="-1"
+              color="info"
+          >Выберите книги для удаления и снова нажмите "Удалить несколько".
+            <v-btn
+                color="red"
+                @click="cancelDeletingMode"
+            >Отмена
+            </v-btn>
+          </v-snackbar>
+          <v-dialog v-model="deletionDialog" max-width="600px">
+            <v-card>
+              <v-card-text>
+                <v-card-title>Вы собираетесь удалить книги</v-card-title>
+                <p><span v-for="book in deletingArray">
+                  {{ book.name }}, {{ book.author }};
+                </span></p>
+              </v-card-text>
+              <v-btn-group class="align-self-end">
+                <v-btn @click="deletionDialog=false">Отмена</v-btn>
+                <v-btn @click="confirmDeleting">Подтвердить</v-btn>
+              </v-btn-group>
+            </v-card>
+          </v-dialog>
+        </div>
       </div>
       <div class="d-flex flex-row align-start ga-4">
         <v-select
@@ -40,7 +62,8 @@
         <book-card :book="book">
           <template #delete-checkbox>
             <div class="bg-white px-2 pl-2 pr-1 rounded-bs-lg" v-if="deletingMode">
-              <v-checkbox-btn color="error" @change="changeDeletionBooksList(book, $event.target.checked)"></v-checkbox-btn>
+              <v-checkbox-btn color="error"
+                              @change="changeDeletionBooksList(book, $event.target.checked)"></v-checkbox-btn>
             </div>
 
           </template>
@@ -50,31 +73,6 @@
         </book-card>
       </v-col>
     </v-row>
-    <v-snackbar
-        v-model="deletingMode"
-        :timeout="-1"
-        color="info"
-    >Выберите книги для удаления и снова нажмите "Удалить несколько".
-      <v-btn
-          color="red"
-          @click="cancelDeletingMode"
-      >Отмена
-      </v-btn>
-    </v-snackbar>
-    <v-dialog v-model="deletionDialog" max-width="600px">
-      <v-card>
-        <v-card-text>
-          <v-card-title>Вы собираетесь удалить книги</v-card-title>
-          <p><span v-for="book in deletingArray">
-            {{book.name}}, {{book.author}};
-          </span></p>
-        </v-card-text>
-        <v-btn-group class="align-self-end">
-          <v-btn @click="deletionDialog=false">Отмена</v-btn>
-          <v-btn @click="confirmDeleting">Подтвердить</v-btn>
-        </v-btn-group>
-      </v-card>
-    </v-dialog>
   </v-container>
 </template>
 
@@ -82,6 +80,7 @@
 
 import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import BookCard from "@/components/BookCard.vue";
+import CreateBookDialog from "@/components/UI/CreateBookDialog.vue";
 
 export default {
   name: 'HomeView',
@@ -94,14 +93,14 @@ export default {
   },
   computed: {
     ...mapState({
-          covers: state => state.books.covers,
-          books: state => state.books.books,
-          sorting: state => state.books.sorting,
-          selectedSort: state => state.books.selectedSort,
-        }),
+      covers: state => state.books.covers,
+      books: state => state.books.books,
+      sorting: state => state.books.sorting,
+      selectedSort: state => state.books.selectedSort,
+    }),
     ...mapGetters({
-          sortedBooks: 'books/sortedBooks',
-        })
+      sortedBooks: 'books/sortedBooks',
+    })
   },
   methods: {
     ...mapMutations({
@@ -125,14 +124,14 @@ export default {
         this.deletingArray = [];
       }
     },
-    changeDeletionBooksList(book, isChecked){
-      if (isChecked){
+    changeDeletionBooksList(book, isChecked) {
+      if (isChecked) {
         this.deletingArray = [...this.deletingArray, book];
       } else {
         this.deletingArray = [...this.deletingArray.filter(item => item !== book)];
       }
     },
-    confirmDeleting(){
+    confirmDeleting() {
       this.setBooks([...this.books.filter(item => !this.deletingArray.includes(item))]);
       this.deletingArray = [];
       this.deletionDialog = false;
@@ -143,7 +142,7 @@ export default {
     },
   },
   components: {
-    BookCard
+    BookCard, CreateBookDialog
   },
 }
 </script>
