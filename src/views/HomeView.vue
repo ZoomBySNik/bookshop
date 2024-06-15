@@ -15,9 +15,9 @@
         <book-card :book="book">
           <template #actions>
             <v-btn prepend-icon="fa-solid fa-trash" variant="tonal" rounded="xl" v-if="booksInBasket.includes(book)"
-                   @click="removeBook(book)">Убрать
+                   @click="removeBookFromBasket(book)">Убрать
             </v-btn>
-            <v-btn prepend-icon="fa-solid fa-cart-plus" variant="tonal" rounded="xl" v-else @click="appendBook(book)">В
+            <v-btn prepend-icon="fa-solid fa-cart-plus" variant="tonal" rounded="xl" v-else @click="appendBookToBasket(book)">В
               корзину
             </v-btn>
           </template>
@@ -35,7 +35,7 @@
 
 <script>
 
-import {mapGetters, mapMutations, mapState} from "vuex";
+import {mapGetters, mapMutations, mapState, mapActions} from "vuex";
 import BookCard from "@/components/BookCard.vue";
 
 export default {
@@ -61,9 +61,11 @@ export default {
       pushBook: 'books/pushBook',
       setBooks: 'books/setBooks',
       setSelectedSort: 'books/setSelectedSort',
-      appendBook: 'basket/appendBook',
-      removeBook: 'basket/removeBook',
     }),
+    ...mapActions({
+      appendBookToBasket: 'basket/appendBookToBasket',
+      removeBookFromBasket: 'basket/removeBookFromBasket',
+    })
   },
   components: {BookCard},
 }
