@@ -20,7 +20,7 @@ export const booksModule = {
         selectedSort: 'dateNewest',
         authors: [],
         genres: [],
-        apiKey: '9a95ff4592054a0497fbc22ccba11e15',
+        apiKey: 'cba8c71f1c10445f9a00ce1f99959315',
         url: 'https://crudcrud.com/api',
     }),
     getters: {

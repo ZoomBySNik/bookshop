@@ -1,8 +1,12 @@
 <template>
-  <v-app>
+  <v-app class="bg-cyan-lighten-5">
     <my-navigation />
     <v-main>
-      <router-view />
+      <v-container>
+        <v-card :loading="isLoading" class="py-4 px-8" rounded="lg">
+          <router-view />
+        </v-card>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -25,6 +29,7 @@ export default {
     }),
     ...mapMutations({
       toggleSidebarOpen: "toggleSidebarOpen",
+      toggleLoading: 'toggleLoading',
       setAuthors: 'books/setAuthors',
       setGenres: 'books/setGenres',
     }),
@@ -37,10 +42,12 @@ export default {
     } catch (error) {
       console.error('Error fetching books:', error);
     }
+    this.toggleLoading();
   },
   computed: {
     ...mapState({
       isSidebarOpen: state => state.isSidebarOpen,
+      isLoading: state => state.isLoading
     }),
   },
 };

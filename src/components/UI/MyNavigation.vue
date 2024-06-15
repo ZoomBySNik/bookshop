@@ -15,7 +15,7 @@ export default {
         {
           title: 'Корзина',
           icon: 'fa-solid fa-basket-shopping',
-          route: '/',
+          route: '/basket',
         },
         {
           title: 'Администрирование',

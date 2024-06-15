@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <h2 class="mb-2">Администрирование</h2>
     <div class="d-flex flex-column ga-8">
       <div class="d-flex justify-space-between ga-4">
         <div class="d-flex flex-row ga-4">
@@ -47,7 +47,7 @@
           </v-dialog>
         </div>
       </div>
-      <div class="d-flex flex-row align-start ga-4">
+      <div class="d-flex flex-row align-start ga-4" v-if="sortedBooks.length > 0 && !isLoading">
         <v-select
             :items="sorting"
             @update:model-value="setSelectedSort"
@@ -57,8 +57,9 @@
         ></v-select>
       </div>
     </div>
+  <div v-if="sortedBooks.length > 0 && !isLoading">
     <v-row class="ma-4">
-      <v-col v-for="book in sortedBooks" :key="book.uuid" cols="12" sm="6" md="3" lg="2">
+      <v-col v-for="book in sortedBooks" :key="book._id" cols="12" sm="6" md="3" lg="2">
         <book-card :book="book">
           <template #delete-checkbox>
             <div class="bg-white px-2 pl-2 pr-1 rounded-bs-lg" v-if="deletingMode">
@@ -73,14 +74,21 @@
         </book-card>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
+  <div class="pa-8" v-else>
+    <v-card>
+      <v-card-text>
+        <v-card-title>Книг пока нет, надеюсь что вы добавите)</v-card-title>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>
 
 import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import BookCard from "@/components/BookCard.vue";
-import CreateBookDialog from "@/components/UI/CreateBookDialog.vue";
+import CreateBookDialog from "@/components/CreateBookDialog.vue";
 
 export default {
   name: 'HomeView',
@@ -97,6 +105,7 @@ export default {
       books: state => state.books.books,
       sorting: state => state.books.sorting,
       selectedSort: state => state.books.selectedSort,
+      isLoading: state => state.isLoading,
     }),
     ...mapGetters({
       sortedBooks: 'books/sortedBooks',
