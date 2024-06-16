@@ -7,8 +7,8 @@
               prepend-icon="fa-solid fa-wand-magic-sparkles"
               variant="elevated"
               @click="generateBooks(5)"
-              rounded="xl"
-          >Создать 5 случайных книг
+              rounded="xl">
+            Создать 5 случайных книг
           </v-btn>
           <create-book-dialog></create-book-dialog>
         </div>
@@ -17,18 +17,18 @@
               prepend-icon="fa-solid fa-trash"
               class="align-self-end"
               rounded="xl"
-              @click="toggleDeletingMode"
-          >Удалить несколько
+              @click="toggleDeletingMode">
+            Удалить несколько
           </v-btn>
           <v-snackbar
               v-model="deletingMode"
               :timeout="-1"
-              color="info"
-          >Выберите книги для удаления и снова нажмите "Удалить несколько".
+              color="info">
+            Выберите книги для удаления и снова нажмите "Удалить несколько".
             <v-btn
                 color="red"
-                @click="cancelDeletingMode"
-            >Отмена
+                @click="cancelDeletingMode">
+              Отмена
             </v-btn>
           </v-snackbar>
           <v-dialog v-model="deletionDialog" max-width="600px">
@@ -55,8 +55,10 @@
         <book-card :book="book">
           <template #delete-checkbox>
             <div class="bg-white px-2 pl-2 pr-1 rounded-bs-lg" v-if="deletingMode">
-              <v-checkbox-btn color="error"
-                              @change="changeDeletionBooksList(book, $event.target.checked)"></v-checkbox-btn>
+              <v-checkbox-btn
+                  color="error"
+                  @change="changeDeletionBooksList(book, $event.target.checked)">
+              </v-checkbox-btn>
             </div>
 
           </template>

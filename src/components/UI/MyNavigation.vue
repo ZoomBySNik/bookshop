@@ -59,8 +59,8 @@ export default {
           :prepend-icon='route.icon'
           @click="goTo(route.route)"
           :disabled="isRouteActive(route.route)"
-          link
-      ></v-list-item>
+          link>
+      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>

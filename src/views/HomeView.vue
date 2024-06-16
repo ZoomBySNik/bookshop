@@ -11,16 +11,14 @@
                 variant="tonal" rounded="xl"
                 :size="$vuetify.display.smAndDown ? 'small': undefined"
                 v-if="booksInBasket.includes(book)"
-                @click="removeBookFromBasket(book)"
-            >
+                @click="removeBookFromBasket(book)">
               Убрать
             </v-btn>
             <v-btn
                 prepend-icon="fa-solid fa-cart-plus"
                 variant="tonal" rounded="xl"
                 :size="$vuetify.display.smAndDown ? 'small': undefined"
-                v-else @click="appendBookToBasket(book)"
-            >
+                v-else @click="appendBookToBasket(book)">
               В корзину
             </v-btn>
           </template>

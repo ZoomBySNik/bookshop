@@ -25,7 +25,7 @@
 <script>
 export default {
   props: {
-    book: Object // Принимает объект книги в качестве свойства
+    book: Object
   },
   methods: {
     formatDate(dateString) {
