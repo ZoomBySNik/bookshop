@@ -50,7 +50,7 @@
       <books-filter-options v-if="books.length > 0 && !isLoading"/>
     </div>
   <div v-if="books.length > 0 && !isLoading">
-    <v-row class="ma-4" v-if="searchedSortedAndFilteredBooks > 0">
+    <v-row class="ma-4" v-if="searchedSortedAndFilteredBooks.length > 0">
       <v-col v-for="book in searchedSortedAndFilteredBooks" :key="book._id" cols="12" sm="6" md="3" lg="2">
         <book-card :book="book">
           <template #delete-checkbox>
