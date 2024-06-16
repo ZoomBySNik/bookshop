@@ -5,9 +5,9 @@ import cover4 from "@/assets/bookscovers/random-book-cover-4.webp";
 import axios from "axios";
 
 export const booksModule = {
-    apiKey: '3ed216af4b66442090a2dce724a9980a',
     namespaced: true,
     state: () => ({
+        apiKey: '3ed216af4b66442090a2dce724a9980a',
         covers: [cover1, cover2, cover3, cover4],
         books: [],
         sorting: [

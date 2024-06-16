@@ -25,6 +25,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ``` js
 ...
 export const booksModule = {
-    apiKey: '3ed216af4b66442090a2dce724a9980a',
+    namespaced: true,
+    state: () => ({
+        apiKey: '3ed216af4b66442090a2dce724a9980a',
 ...
 ```
