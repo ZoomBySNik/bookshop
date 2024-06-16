@@ -18,6 +18,9 @@ export const booksModule = {
             {value: 'genre', title: 'По жанру'}
         ],
         selectedSort: 'dateNewest',
+        searchRequest: null,
+        selectedAuthor: null,
+        selectedGenre: null,
         authors: [],
         genres: [],
         apiKey: '3ed216af4b66442090a2dce724a9980a',
@@ -50,6 +53,23 @@ export const booksModule = {
             }
             return sortedBooks;
         },
+        searchedAndSortedBooks(state, getters) {
+            let searchedBooks = getters.sortedBooks;
+            if (state.searchRequest){
+                searchedBooks = [...searchedBooks.filter(item => item.name.toLowerCase().includes(state.searchRequest.toLowerCase()))];
+            }
+            return searchedBooks;
+        },
+        searchedSortedAndFilteredBooks(state, getters){
+            let FilteredBooks = [...getters.searchedAndSortedBooks]
+            if (state.selectedAuthor) {
+                FilteredBooks = [...FilteredBooks.filter(item => item.author === state.selectedAuthor)];
+            }
+            if (state.selectedGenre) {
+                FilteredBooks = FilteredBooks.filter(item => item.genre === state.selectedGenre);
+            }
+            return FilteredBooks;
+        }
     },
     mutations: {
         setBooks(state, books) {
@@ -66,6 +86,15 @@ export const booksModule = {
         },
         setSelectedSort(state, sort) {
             state.selectedSort = sort;
+        },
+        updateSearchRequest(state, searchRequest) {
+            state.searchRequest = searchRequest;
+        },
+        setSelectedAuthor(state, author) {
+            state.selectedAuthor = author;
+        },
+        setSelectedGenre(state, genre) {
+            state.selectedGenre = genre;
         }
     },
     actions: {
@@ -91,7 +120,7 @@ export const booksModule = {
         },
         async updateBook({state, commit}, book) {
             try {
-                let { _id, ...bookWithoutId } = book;
+                let {_id, ...bookWithoutId} = book;
                 const response = await axios.put(`${state.url}/${state.apiKey}/books/${book._id}`, bookWithoutId);
                 const updatedBooks = state.books.map(b => (b._id === book._id ? response.data : b));
                 commit('setBooks', updatedBooks);

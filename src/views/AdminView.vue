@@ -47,19 +47,11 @@
           </v-dialog>
         </div>
       </div>
-      <div class="d-flex flex-row align-start ga-4" v-if="sortedBooks.length > 0 && !isLoading">
-        <v-select
-            :items="sorting"
-            @update:model-value="setSelectedSort"
-            variant="underlined"
-            density="comfortable"
-            label="Сортировка книг"
-        ></v-select>
-      </div>
+      <books-filter-options v-if="books.length > 0 && !isLoading"/>
     </div>
-  <div v-if="sortedBooks.length > 0 && !isLoading">
-    <v-row class="ma-4">
-      <v-col v-for="book in sortedBooks" :key="book._id" cols="12" sm="6" md="3" lg="2">
+  <div v-if="books.length > 0 && !isLoading">
+    <v-row class="ma-4" v-if="searchedSortedAndFilteredBooks > 0">
+      <v-col v-for="book in searchedSortedAndFilteredBooks" :key="book._id" cols="12" sm="6" md="3" lg="2">
         <book-card :book="book">
           <template #delete-checkbox>
             <div class="bg-white px-2 pl-2 pr-1 rounded-bs-lg" v-if="deletingMode">
@@ -74,6 +66,7 @@
         </book-card>
       </v-col>
     </v-row>
+    <h2 v-else>Ничего не найдено</h2>
   </div>
   <div class="pa-8" v-else>
     <v-card>
@@ -89,6 +82,7 @@
 import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import BookCard from "@/components/BookCard.vue";
 import CreateBookDialog from "@/components/CreateBookDialog.vue";
+import BooksFilterOptions from "@/components/BooksFilterOptions.vue";
 
 export default {
   name: 'HomeView',
@@ -103,19 +97,16 @@ export default {
     ...mapState({
       covers: state => state.books.covers,
       books: state => state.books.books,
-      sorting: state => state.books.sorting,
-      selectedSort: state => state.books.selectedSort,
       isLoading: state => state.isLoading,
     }),
     ...mapGetters({
-      sortedBooks: 'books/sortedBooks',
+      searchedSortedAndFilteredBooks: 'books/searchedSortedAndFilteredBooks',
     })
   },
   methods: {
     ...mapMutations({
       pushBook: 'books/pushBook',
       setBooks: 'books/setBooks',
-      setSelectedSort: 'books/setSelectedSort',
     }),
     ...mapActions({
       createRandomBook: 'books/createRandomBook',
@@ -154,6 +145,7 @@ export default {
     },
   },
   components: {
+    BooksFilterOptions,
     BookCard, CreateBookDialog
   },
 }
