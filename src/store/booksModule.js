@@ -5,6 +5,7 @@ import cover4 from "@/assets/bookscovers/random-book-cover-4.webp";
 import axios from "axios";
 
 export const booksModule = {
+    apiKey: '3ed216af4b66442090a2dce724a9980a',
     namespaced: true,
     state: () => ({
         covers: [cover1, cover2, cover3, cover4],
@@ -23,7 +24,7 @@ export const booksModule = {
         selectedGenre: null,
         authors: [],
         genres: [],
-        apiKey: '3ed216af4b66442090a2dce724a9980a',
+
         url: 'https://crudcrud.com/api',
     }),
     getters: {
