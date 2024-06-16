@@ -42,7 +42,7 @@ export default {
         :model-value="searchRequest"
         @update:modelValue="updateSearchRequest"
         label="Введите название книги"
-        density="comfortable"
+        density="compact"
         clearable
         clear-icon="fa-solid fa-xmark"
     ></v-text-field>
