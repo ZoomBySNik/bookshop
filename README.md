@@ -20,6 +20,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Взаимодействие с сервером
 Для взаимодействия с сервером необходимо перейти на сайт [crud](https://crudcrud.com/) и получить код api
+
 После чго укзать его в файле ./src/store/booksModule
 ``` js
 ...
