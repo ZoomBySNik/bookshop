@@ -3,11 +3,12 @@ import cover2 from "@/assets/bookscovers/random-book-cover-2.webp";
 import cover3 from "@/assets/bookscovers/random-book-cover-3.webp";
 import cover4 from "@/assets/bookscovers/random-book-cover-4.webp";
 import axios from "axios";
-
+const apiKey = process.env.VUE_APP_API_KEY;
+const apiUrl = process.env.VUE_APP_API_URL;
 export const booksModule = {
     namespaced: true,
     state: () => ({
-        apiKey: 'a841cba29a574f8aa94e1e5db0c580ec',
+        apiKey: apiKey,
         covers: [cover1, cover2, cover3, cover4],
         books: [],
         sorting: [
@@ -25,7 +26,7 @@ export const booksModule = {
         authors: [],
         genres: [],
 
-        url: 'https://crudcrud.com/api',
+        url: apiUrl,
     }),
     getters: {
         sortedBooks(state) {

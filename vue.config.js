@@ -1,5 +1,4 @@
 const { defineConfig } = require('@vue/cli-service');
-
 module.exports = defineConfig({
   transpileDependencies: true,
   chainWebpack: (config) => {
@@ -11,5 +10,10 @@ module.exports = defineConfig({
       });
       return definitions;
     });
-  }
+  },
+  devServer: {
+    server: {
+      type: "https"
+    }
+  },
 });
