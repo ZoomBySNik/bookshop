@@ -11,9 +11,4 @@ module.exports = defineConfig({
       return definitions;
     });
   },
-  devServer: {
-    server: {
-      type: "https"
-    }
-  },
 });
