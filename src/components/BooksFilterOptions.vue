@@ -29,14 +29,14 @@ export default {
 </script>
 
 <template>
-  <div class="d-flex flex-row align-start ga-4">
+  <div class="d-flex flex-row align-start ga-2 ga-lg-4 flex-wrap flex-1-0-0">
     <v-select
         :items="sorting"
         @update:model-value="setSelectedSort"
         :model-value="selectedSort"
         variant="underlined"
         density="comfortable"
-        label="Сортировка книг"
+        class="pa-0 ma-0"
     ></v-select>
     <v-text-field
         :model-value="searchRequest"
@@ -45,6 +45,8 @@ export default {
         density="compact"
         clearable
         clear-icon="fa-solid fa-xmark"
+        min-width="200"
+        class="pa-0 ma-0"
     ></v-text-field>
     <v-select
         :items="genres"
@@ -55,6 +57,8 @@ export default {
         label="Фильтр по жанру"
         clearable
         clear-icon="fa-solid fa-xmark"
+        min-width="200"
+        class="pa-0 ma-0"
     ></v-select>
     <v-select
         :items="authors"
@@ -65,6 +69,9 @@ export default {
         label="Фильтр по автору"
         clearable
         clear-icon="fa-solid fa-xmark"
+        min-width="200"
+
+        class="pa-0 ma-0"
     ></v-select>
   </div>
 </template>

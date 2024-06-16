@@ -12,8 +12,8 @@
         :word-few="'рубля'"
         :word-many="'рублей'"/>
   </p>
-  <v-row class="ma-4">
-    <v-col v-for="book in booksInBasket" :key="book._id" cols="12" sm="12" md="6" lg="3">
+  <v-row class="ma-lg-4 ma-0">
+    <v-col v-for="book in booksInBasket" :key="book._id" cols="6" sm="6" md="4" lg="3" class="pa-1 pa-lg-3">
       <book-card :book="book">
         <template #actions>
           <v-btn prepend-icon="fa-solid fa-trash" variant="tonal" rounded="xl" v-if="booksInBasket.includes(book)"

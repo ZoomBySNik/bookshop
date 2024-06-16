@@ -1,8 +1,8 @@
 <template>
   <h2 class="mb-2">Администрирование</h2>
     <div class="d-flex flex-column ga-8">
-      <div class="d-flex justify-space-between ga-4">
-        <div class="d-flex flex-row ga-4">
+      <div class="d-flex justify-space-between ga-4 flex-wrap">
+        <div class="d-flex flex-row ga-4 flex-wrap">
           <v-btn
               prepend-icon="fa-solid fa-wand-magic-sparkles"
               variant="elevated"
@@ -50,8 +50,8 @@
       <books-filter-options v-if="books.length > 0 && !isLoading"/>
     </div>
   <div v-if="books.length > 0 && !isLoading">
-    <v-row class="ma-4" v-if="searchedSortedAndFilteredBooks.length > 0">
-      <v-col v-for="book in searchedSortedAndFilteredBooks" :key="book._id" cols="12" sm="6" md="3" lg="2">
+    <v-row v-if="searchedSortedAndFilteredBooks.length > 0">
+      <v-col v-for="book in searchedSortedAndFilteredBooks" :key="book._id" cols="6" sm="6" md="3" lg="2">
         <book-card :book="book">
           <template #delete-checkbox>
             <div class="bg-white px-2 pl-2 pr-1 rounded-bs-lg" v-if="deletingMode">

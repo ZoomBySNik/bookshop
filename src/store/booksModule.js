@@ -7,7 +7,7 @@ import axios from "axios";
 export const booksModule = {
     namespaced: true,
     state: () => ({
-        apiKey: '3ed216af4b66442090a2dce724a9980a',
+        apiKey: 'a841cba29a574f8aa94e1e5db0c580ec',
         covers: [cover1, cover2, cover3, cover4],
         books: [],
         sorting: [
@@ -62,7 +62,7 @@ export const booksModule = {
             return searchedBooks;
         },
         searchedSortedAndFilteredBooks(state, getters){
-            let FilteredBooks = [...getters.searchedAndSortedBooks]
+            let FilteredBooks = [...getters.searchedAndSortedBooks];
             if (state.selectedAuthor) {
                 FilteredBooks = [...FilteredBooks.filter(item => item.author === state.selectedAuthor)];
             }

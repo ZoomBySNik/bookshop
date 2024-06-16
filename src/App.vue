@@ -3,7 +3,7 @@
     <my-navigation />
     <v-main>
       <v-container>
-        <v-card :loading="isLoading" class="py-4 px-8" rounded="lg">
+        <v-card :loading="isLoading" class="py-lg-4 py-1 px-lg-8 px-2" rounded="lg">
           <router-view />
         </v-card>
       </v-container>
@@ -12,6 +12,17 @@
 </template>
 
 <style>
+@media (max-width: 600px) {
+  * {
+    font-size: 12px!important;
+  }
+  h1, h2, i {
+    font-size: 16px!important;
+  }
+  h3, h4{
+    font-size: 14px!important;
+  }
+}
 </style>
 
 <script>
@@ -28,7 +39,6 @@ export default {
       fetchBooks: 'books/fetchBooks',
     }),
     ...mapMutations({
-      toggleSidebarOpen: "toggleSidebarOpen",
       toggleLoading: 'toggleLoading',
       setAuthors: 'books/setAuthors',
       setGenres: 'books/setGenres',
@@ -46,7 +56,6 @@ export default {
   },
   computed: {
     ...mapState({
-      isSidebarOpen: state => state.isSidebarOpen,
       isLoading: state => state.isLoading
     }),
   },
