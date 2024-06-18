@@ -1,17 +1,6 @@
 <template>
   <h2 class="mb-2">Корзина</h2>
-  <p>В вашей корзине
-    <my-number-and-word
-        :number="booksInBasket.length"
-        :word-one="'товар'"
-        :word-few="'товара'"
-        :word-many="'товаров'"/>, на сумму
-    <my-number-and-word
-        :number="totalPrice"
-        :word-one="'рубль'"
-        :word-few="'рубля'"
-        :word-many="'рублей'"/>
-  </p>
+  <p>В вашей корзине <strong>{{booksInBasket.length}}</strong> {{bookCountWord}}, на сумму <strong>{{totalPrice}}</strong> {{totalPriceWord}}</p>
   <v-row
       class="ma-lg-4 ma-0"
   >
@@ -56,7 +45,6 @@
 
 import {mapActions, mapState} from "vuex";
 import BookCard from "@/components/BookCard.vue";
-import MyNumberAndWord from "@/components/UI/MyNumberAndWord.vue";
 
 export default {
   name: 'BasketView',
@@ -70,6 +58,34 @@ export default {
       booksInBasket: state => state.basket.booksInBasket,
       totalPrice: state => state.basket.totalPrice,
     }),
+    bookCountWord() {
+      let n = Math.abs(this.booksInBasket.length);
+      n %= 100;
+      if (n >= 5 && n <= 20) {
+        return 'позиций';
+      }
+      n %= 10;
+      if (n === 1) {
+        return 'позиция';
+      }
+      if (n >= 2 && n <= 4) {
+        return 'позиции';
+      }
+    },
+    totalPriceWord() {
+      let n = Math.abs(this.totalPrice);
+      n %= 100;
+      if (n >= 5 && n <= 20) {
+        return 'рублей';
+      }
+      n %= 10;
+      if (n === 1) {
+        return 'рубль';
+      }
+      if (n >= 2 && n <= 4) {
+        return 'рубля';
+      }
+    },
   },
   methods: {
     ...mapActions({
@@ -78,6 +94,6 @@ export default {
       decreaseBookCountInBasket: 'basket/decreaseBookCountInBasket',
     })
   },
-  components: {MyNumberAndWord, BookCard},
+  components: {BookCard},
 }
 </script>

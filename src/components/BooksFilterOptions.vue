@@ -29,7 +29,9 @@ export default {
 </script>
 
 <template>
-  <div class="d-flex flex-row align-start ga-2 ga-lg-4 flex-wrap flex-1-0-0">
+  <div
+      class="d-flex flex-row align-start ga-2 ga-lg-4 flex-wrap flex-1-0-0"
+  >
     <v-select
         :items="sorting"
         @update:model-value="setSelectedSort"
@@ -37,7 +39,7 @@ export default {
         variant="underlined"
         density="comfortable"
         class="pa-0 ma-0"
-    ></v-select>
+    />
     <v-text-field
         :model-value="searchRequest"
         @update:modelValue="updateSearchRequest"
@@ -47,7 +49,7 @@ export default {
         clear-icon="fa-solid fa-xmark"
         min-width="200"
         class="pa-0 ma-0"
-    ></v-text-field>
+    />
     <v-select
         :items="genres"
         @update:model-value="setSelectedGenre"
@@ -59,7 +61,7 @@ export default {
         clear-icon="fa-solid fa-xmark"
         min-width="200"
         class="pa-0 ma-0"
-    ></v-select>
+    />
     <v-select
         :items="authors"
         @update:model-value="setSelectedAuthor"
@@ -70,9 +72,8 @@ export default {
         clearable
         clear-icon="fa-solid fa-xmark"
         min-width="200"
-
         class="pa-0 ma-0"
-    ></v-select>
+    />
   </div>
 </template>
 

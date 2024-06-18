@@ -1,6 +1,12 @@
 <template>
-  <h2 class="mb-2">Главная</h2>
-  <div v-if="books.length > 0">
+  <h2
+      class="mb-2"
+  >
+    Главная
+  </h2>
+  <div
+      v-if="books.length > 0"
+  >
     <books-filter-options/>
     <v-row
         class="ma-lg-4 ma-0"

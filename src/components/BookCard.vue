@@ -1,23 +1,60 @@
 <template>
-  <v-card class="border-thin rounded-lg d-flex flex-column h-100 book-card">
-    <v-img style="aspect-ratio: 3/4;" class="book-card__image" :src="book.cover">
-      <div class="d-flex flex-row-reverse">
-        <slot name="delete-checkbox"></slot>
+  <v-card
+      class="border-thin rounded-lg d-flex flex-column h-100 book-card"
+  >
+    <v-img
+        style="aspect-ratio: 3/4;"
+        class="book-card__image"
+        :src="book.cover"
+    >
+      <div
+          class="d-flex flex-row-reverse"
+      >
+        <slot
+            name="delete-checkbox"
+        />
       </div>
     </v-img>
-    <v-card-text class="d-flex flex-column justify-space-between pa-0 book-card__content">
-      <div class="mt-0">
-        <v-card-title class="text-truncate" v-tooltip:="book.name">{{ book.name }}</v-card-title>
-        <v-card-subtitle class="text-truncate" v-tooltip:="book.author">{{ book.author }}</v-card-subtitle>
+    <v-card-text
+        class="d-flex flex-column justify-space-between pa-0 book-card__content"
+    >
+      <div
+          class="mt-0"
+      >
+        <v-card-title
+            class="text-truncate"
+            v-tooltip="book.name"
+        >
+          {{ book.name }}
+        </v-card-title>
+        <v-card-subtitle
+            class="text-truncate"
+            v-tooltip="book.author"
+        >
+          {{ book.author }}
+        </v-card-subtitle>
         <v-card-text>
-          <p class="text-truncate" v-tooltip:="book.genre">Жанр: {{ book.genre }}</p>
-          <p>Дата публикации: {{ formatDate(book.dateOfPublication) }}</p>
+          <p
+              class="text-truncate"
+              v-tooltip="book.genre"
+          >
+            Жанр: {{ book.genre }}
+          </p>
+          <p>
+            Дата публикации: {{ formatDate(book.dateOfPublication) }}
+          </p>
         </v-card-text>
       </div>
-      <v-card-title class="text-red font-weight-bold pl-4 pa-0">{{ book.price }} р.</v-card-title>
+      <v-card-title
+          class="text-red font-weight-bold pl-4 pa-0"
+      >
+        {{ book.price }} р.
+      </v-card-title>
     </v-card-text>
-    <v-card-actions class="d-flex flex-row-reverse justify-space-between pa-2 align-self-end mt-auto">
-      <slot name="actions"></slot>
+    <v-card-actions
+        class="d-flex flex-row-reverse justify-space-between pa-2 align-self-end mt-auto"
+    >
+      <slot name="actions"/>
     </v-card-actions>
   </v-card>
 </template>
@@ -25,7 +62,15 @@
 <script>
 export default {
   props: {
-    book: Object
+    book: {
+      _id: String,
+      name: String,
+      author: String,
+      dateOfPublication: Date,
+      genre: String,
+      price: Number,
+      cover: Object,
+    }
   },
   methods: {
     formatDate(dateString) {
