@@ -23,13 +23,14 @@
           </v-btn>
           <v-snackbar
               v-model="deletingMode"
+              color="white"
               :timeout="-1"
-              color="info"
           >
             Выберите книги для удаления и снова нажмите "Удалить несколько".
             <v-btn
                 color="red"
-                @click="cancelDeletingMode">
+                @click="cancelDeletingMode"
+            >
               Отмена
             </v-btn>
           </v-snackbar>
@@ -106,7 +107,11 @@
         </book-card>
       </v-col>
     </v-row>
-    <h2 v-else>Ничего не найдено</h2>
+    <h2
+        v-else
+    >
+      Ничего не найдено
+    </h2>
   </div>
   <div
       class="pa-8"
