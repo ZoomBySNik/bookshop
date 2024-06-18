@@ -6,29 +6,55 @@ export const basketModule = {
     }),
     mutations: {
         appendBook(state, book) {
-            state.booksInBasket = [...state.booksInBasket, book];
+            state.booksInBasket = [...state.booksInBasket, { ...book, countInBasket: 1 }];
         },
         removeBook(state, book) {
-            state.booksInBasket = [...state.booksInBasket.filter(item => item._id !== book._id)];
+            state.booksInBasket = state.booksInBasket.filter(item => item._id !== book._id);
         },
-        setTotalPrice(state){
+        increaseBookCount(state, book) {
+            const bookInBasket = state.booksInBasket.find(item => item._id === book._id);
+            if (bookInBasket) {
+                bookInBasket.countInBasket++;
+            }
+        },
+        decreaseBookCount(state, book) {
+            const bookInBasket = state.booksInBasket.find(item => item._id === book._id);
+            if (bookInBasket && bookInBasket.countInBasket > 1) {
+                bookInBasket.countInBasket--;
+            }
+        },
+        setTotalPrice(state) {
             state.totalPrice = state.booksInBasket.reduce((total, book) => {
-                return total + book.price;
+                return total + (book.price * book.countInBasket);
             }, 0);
         }
     },
     actions: {
-        appendBookToBasket({state, commit}, book){
-            if(!state.booksInBasket.includes(book)){
+        appendBookToBasket({ state, commit }, book) {
+            if (!state.booksInBasket.some(item => item._id === book._id)) {
                 commit('appendBook', book);
-                commit('setTotalPrice');
+            } else {
+                commit('increaseBookCount', book);
             }
+            commit('setTotalPrice');
         },
-        removeBookFromBasket({state, commit}, book){
-            if(state.booksInBasket.includes(book)){
+        removeBookFromBasket({ state, commit }, book) {
+            if (state.booksInBasket.some(item => item._id === book._id)) {
                 commit('removeBook', book);
                 commit('setTotalPrice');
             }
+        },
+        increaseBookCountInBasket({ state, commit }, book) {
+            if (state.booksInBasket.some(item => item._id === book._id)) {
+                commit('increaseBookCount', book);
+                commit('setTotalPrice');
+            }
+        },
+        decreaseBookCountInBasket({ state, commit }, book) {
+            if (state.booksInBasket.some(item => item._id === book._id)) {
+                commit('decreaseBookCount', book);
+                commit('setTotalPrice');
+            }
         }
-    },
+    }
 };

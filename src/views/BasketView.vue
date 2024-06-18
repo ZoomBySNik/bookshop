@@ -12,13 +12,40 @@
         :word-few="'рубля'"
         :word-many="'рублей'"/>
   </p>
-  <v-row class="ma-lg-4 ma-0">
-    <v-col v-for="book in booksInBasket" :key="book._id" cols="6" sm="6" md="4" lg="3" class="pa-1 pa-lg-3">
-      <book-card :book="book">
+  <v-row
+      class="ma-lg-4 ma-0"
+  >
+    <v-col
+        v-for="book in booksInBasket"
+        :key="book._id"
+        cols="6"
+        sm="6"
+        md="4"
+        lg="3"
+        class="pa-1 pa-lg-3"
+    >
+      <book-card
+          :book="book"
+      >
         <template #actions>
-          <v-btn prepend-icon="fa-solid fa-trash" variant="tonal" rounded="xl" v-if="booksInBasket.includes(book)"
-                 @click="removeBookFromBasket(book)">Убрать
+          <v-btn
+              prepend-icon="fa-solid fa-trash"
+              variant="tonal"
+              rounded="xl"
+              v-if="booksInBasket.find(({_id}) => _id === book._id)"
+              @click="removeBookFromBasket(book)"
+          >
+            Убрать
           </v-btn>
+          <v-btn
+              icon="fa-solid fa-plus"
+              @click="increaseBookCountInBasket(book)"
+          />
+          <strong>{{book.countInBasket}}</strong>
+          <v-btn
+              icon="fa-solid fa-minus"
+              @click="decreaseBookCountInBasket(book)"
+          />
         </template>
       </book-card>
     </v-col>
@@ -47,6 +74,8 @@ export default {
   methods: {
     ...mapActions({
       removeBookFromBasket: 'basket/removeBookFromBasket',
+      increaseBookCountInBasket: 'basket/increaseBookCountInBasket',
+      decreaseBookCountInBasket: 'basket/decreaseBookCountInBasket',
     })
   },
   components: {MyNumberAndWord, BookCard},
