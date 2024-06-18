@@ -1,10 +1,16 @@
 <template>
-  <v-app class="bg-cyan-lighten-5">
-    <my-navigation />
+  <v-app
+      class="bg-cyan-lighten-5"
+  >
+    <my-navigation/>
     <v-main>
       <v-container>
-        <v-card :loading="isLoading" class="py-lg-4 py-1 px-lg-8 px-2" rounded="lg">
-          <router-view />
+        <v-card
+            :loading="isLoading"
+            class="py-lg-4 py-1 px-lg-8 px-2"
+            rounded="lg"
+        >
+          <router-view/>
         </v-card>
       </v-container>
     </v-main>

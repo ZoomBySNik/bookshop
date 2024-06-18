@@ -1,5 +1,4 @@
 <script>
-import router from "@/router";
 
 export default {
   name: 'my-navigation',
@@ -26,13 +25,6 @@ export default {
     }
   },
   methods: {
-    router() {
-      return router
-    },
-    goTo(route) {
-      this.toggleSidebar();
-      this.$router.push(route);
-    },
     isRouteActive(route) {
       return this.$route.path === route;
     },
@@ -57,7 +49,7 @@ export default {
           v-for="route in this.routes"
           :title='route.title'
           :prepend-icon='route.icon'
-          @click="goTo(route.route)"
+          @click="$router.push(route.route)"
           :disabled="isRouteActive(route.route)"
           link>
       </v-list-item>
