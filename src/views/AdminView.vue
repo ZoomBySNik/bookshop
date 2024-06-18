@@ -27,39 +27,25 @@
               :timeout="-1"
           >
             Выберите книги для удаления и снова нажмите "Удалить несколько".
-            <v-btn
-                color="red"
-                @click="cancelDeletingMode"
-            >
+            <v-btn color="red" @click="cancelDeletingMode">
               Отмена
             </v-btn>
           </v-snackbar>
-          <v-dialog
-              v-model="deletionDialog"
-              max-width="600px"
-          >
+          <v-dialog v-model="deletionDialog" max-width="600px">
             <v-card>
               <v-card-text>
                 <v-card-title>Вы собираетесь удалить книги</v-card-title>
                 <p>
-                  <span
-                      v-for="book in deletingArray"
-                  >
+                  <span v-for="book in deletingArray">
                     {{ book.name }}, {{ book.author }};
                   </span>
                 </p>
               </v-card-text>
-              <v-btn-group
-                  class="align-self-end"
-              >
-                <v-btn
-                    @click="deletionDialog=false"
-                >
+              <v-btn-group class="align-self-end">
+                <v-btn @click="deletionDialog=false">
                   Отмена
                 </v-btn>
-                <v-btn
-                    @click="confirmDeleting"
-                >
+                <v-btn @click="confirmDeleting">
                   Подтвердить
                 </v-btn>
               </v-btn-group>
@@ -67,16 +53,10 @@
           </v-dialog>
         </div>
       </div>
-      <books-filter-options
-          v-if="books.length > 0 && !isLoading"
-      />
+      <books-filter-options v-if="books.length > 0 && !isLoading"/>
     </div>
-  <div
-      v-if="books.length > 0 && !isLoading"
-  >
-    <v-row
-        v-if="searchedSortedAndFilteredBooks.length > 0"
-    >
+  <div v-if="books.length > 0 && !isLoading">
+    <v-row v-if="searchedSortedAndFilteredBooks.length > 0">
       <v-col
           v-for="book in searchedSortedAndFilteredBooks"
           :key="book._id"
@@ -85,33 +65,19 @@
           md="3"
           lg="2"
       >
-        <book-card
-            :book="book"
-        >
+        <book-card :book="book">
           <template #delete-checkbox>
-            <div
-                class="bg-white px-2 pl-2 pr-1 rounded-bs-lg"
-                v-if="deletingMode"
-            >
-              <v-checkbox-btn
-                  color="error"
-                  @change="changeDeletionBooksList(book, $event.target.checked)"
-              />
+            <div class="bg-white px-2 pl-2 pr-1 rounded-bs-lg" v-if="deletingMode">
+              <v-checkbox-btn color="error" @change="changeDeletionBooksList(book, $event.target.checked)"/>
             </div>
           </template>
           <template #actions>
-            <create-book-dialog
-                :book="book"
-            />
+            <create-book-dialog :book="book"/>
           </template>
         </book-card>
       </v-col>
     </v-row>
-    <h2
-        v-else
-    >
-      Ничего не найдено
-    </h2>
+    <h2 v-else>Ничего не найдено</h2>
   </div>
   <div
       class="pa-8"

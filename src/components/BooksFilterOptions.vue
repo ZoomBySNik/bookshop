@@ -29,9 +29,7 @@ export default {
 </script>
 
 <template>
-  <div
-      class="d-flex flex-row align-start ga-2 ga-lg-4 flex-wrap flex-1-0-0"
-  >
+  <div class="d-flex flex-row align-start ga-2 ga-lg-4 flex-wrap flex-1-0-0">
     <v-select
         :items="sorting"
         @update:model-value="setSelectedSort"

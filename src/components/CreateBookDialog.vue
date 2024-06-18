@@ -95,19 +95,12 @@ export default {
       Создать книгу
     </v-btn>
   </div>
-  <v-dialog
-      v-model="createBookDialog"
-      max-width="600px"
-  >
-    <v-card
-        class="pa-4"
-    >
+  <v-dialog v-model="createBookDialog" max-width="600px">
+    <v-card class="pa-4">
       <v-card-text>
         <v-card-title>Форма добавления книги</v-card-title>
       </v-card-text>
-      <v-form
-          @submit.prevent="submitBookForm"
-      >
+      <v-form @submit.prevent="submitBookForm">
         <v-text-field
             v-model="newBook.name"
             label="Название"
@@ -139,13 +132,11 @@ export default {
         />
         <v-text-field
             v-model="newBook.price"
-            label="Цена" type="number"
+            label="Цена"
+            type="number"
             required
         />
-        <v-btn
-            type="submit"
-            color="primary"
-        >
+        <v-btn type="submit" color="primary">
           Сохранить
         </v-btn>
       </v-form>

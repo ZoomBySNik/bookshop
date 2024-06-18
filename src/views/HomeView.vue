@@ -1,17 +1,8 @@
 <template>
-  <h2
-      class="mb-2"
-  >
-    Главная
-  </h2>
-  <div
-      v-if="books.length > 0"
-  >
+  <h2 class="mb-2">Главная</h2>
+  <div v-if="books.length > 0">
     <books-filter-options/>
-    <v-row
-        class="ma-lg-4 ma-0"
-        v-if="searchedSortedAndFilteredBooks.length > 0"
-    >
+    <v-row class="ma-lg-4 ma-0" v-if="searchedSortedAndFilteredBooks.length > 0">
       <v-col
           v-for="book in searchedSortedAndFilteredBooks"
           :key="book._id"
@@ -21,9 +12,7 @@
           lg="3"
           class="pa-1 pa-lg-3"
       >
-        <book-card
-            :book="book"
-        >
+        <book-card :book="book">
           <template #actions>
             <v-btn
                 prepend-icon="fa-solid fa-trash"
@@ -44,17 +33,10 @@
         </book-card>
       </v-col>
     </v-row>
-    <h2 v-else>
-      Ничего не найдено
-    </h2>
+    <h2 v-else>Ничего не найдено</h2>
   </div>
-  <div
-      v-else-if="isLoading"
-  />
-  <div
-      class="pa-8"
-      v-else
-  >
+  <div v-else-if="isLoading"/>
+  <div class="pa-8" v-else>
     <v-card>
       <v-card-title>Книг пока нет, но они обязательно появятся)</v-card-title>
     </v-card>

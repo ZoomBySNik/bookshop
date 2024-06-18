@@ -1,7 +1,5 @@
 <template>
-  <v-app
-      class="bg-cyan-lighten-5"
-  >
+  <v-app class="bg-cyan-lighten-5">
     <my-navigation/>
     <v-main>
       <v-container>

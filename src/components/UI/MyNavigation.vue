@@ -40,10 +40,14 @@ export default {
 
 <template>
   <v-app-bar scroll-behavior="elevate" rounded="b-lg">
-    <v-app-bar-nav-icon icon="fas fa-bars" @click.stop="toggleSidebar"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon icon="fas fa-bars" @click.stop="toggleSidebar"/>
     <v-app-bar-title>Книжный</v-app-bar-title>
   </v-app-bar>
-  <v-navigation-drawer v-model="isSidebarOpen" transition="fade-transition" :location="$vuetify.display.mobile ? 'bottom' : undefined">
+  <v-navigation-drawer
+      v-model="isSidebarOpen"
+      transition="fade-transition"
+      :location="$vuetify.display.mobile ? 'bottom' : undefined"
+  >
     <v-list>
       <v-list-item
           v-for="route in this.routes"
