@@ -124,7 +124,8 @@ export const booksModule = {
             try {
                 let {_id, ...bookWithoutId} = book;
                 const response = await axios.put(`${state.url}/${state.apiKey}/books/${book._id}`, bookWithoutId);
-                const updatedBooks = state.books.map(b => (b._id === book._id ? response.data : b));
+                console.log(response.data);
+                const updatedBooks = [...state.books.filter(b => b._id !== book._id), book];
                 commit('setBooks', updatedBooks);
                 commit('setAuthors');
                 commit('setGenres');
