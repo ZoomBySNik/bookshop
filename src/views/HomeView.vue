@@ -2,7 +2,8 @@
   <h2 class="mb-2">Главная</h2>
   <div v-if="books.length > 0">
     <books-filter-options/>
-    <v-row class="ma-lg-4 ma-0" v-if="searchedSortedAndFilteredBooks.length > 0">
+    <div class="card-scroll" v-if="searchedSortedAndFilteredBooks.length > 0">
+      <v-row class="ma-lg-4 ma-0">
       <v-col
           v-for="book in searchedSortedAndFilteredBooks"
           :key="book._id"
@@ -33,6 +34,7 @@
         </book-card>
       </v-col>
     </v-row>
+    </div>
     <h2 v-else>Ничего не найдено</h2>
   </div>
   <div v-else-if="isLoading"/>

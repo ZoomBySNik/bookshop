@@ -35,10 +35,8 @@
             <v-card>
               <v-card-text>
                 <v-card-title>Вы собираетесь удалить книги</v-card-title>
-                <p>
-                  <span v-for="book in deletingArray">
+                <p v-for="book in deletingArray">
                     {{ book.name }}, {{ book.author }};
-                  </span>
                 </p>
               </v-card-text>
               <v-btn-group class="align-self-end">
@@ -55,7 +53,7 @@
       </div>
       <books-filter-options v-if="books.length > 0 && !isLoading"/>
     </div>
-  <div v-if="books.length > 0 && !isLoading">
+  <div class="card-scroll" v-if="books.length > 0 && !isLoading">
     <v-row v-if="searchedSortedAndFilteredBooks.length > 0">
       <v-col
           v-for="book in searchedSortedAndFilteredBooks"

@@ -27,6 +27,13 @@
     font-size: 14px!important;
   }
 }
+.card-scroll{
+  height: 77vh;
+  display: block;
+  width: 100%!important;
+  overflow-y: scroll!important;
+  overflow-x: hidden!important;
+}
 </style>
 
 <script>

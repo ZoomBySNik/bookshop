@@ -9,7 +9,7 @@
         <slot name="delete-checkbox"/>
       </div>
     </v-img>
-    <v-card-text class="d-flex flex-column justify-space-between pa-0 book-card__content">
+    <v-card-text class="d-flex flex-column justify-space-between pa-0 book-card__content flex-1-0-0">
       <div class="mt-0">
         <v-card-title class="text-truncate" v-tooltip="book.name">
           {{ book.name }}
@@ -25,12 +25,12 @@
             Дата публикации: {{ formatDate(book.dateOfPublication) }}
           </p>
         </v-card-text>
+        <v-card-title class="text-red font-weight-bold pl-4 pa-0 mb-0">
+          {{ book.price }} р.
+        </v-card-title>
       </div>
-      <v-card-title class="text-red font-weight-bold pl-4 pa-0">
-        {{ book.price }} р.
-      </v-card-title>
     </v-card-text>
-    <v-card-actions class="d-flex flex-row-reverse justify-space-between pa-2 align-self-end mt-auto">
+    <v-card-actions class="d-flex flex-row-reverse justify-space-between pa-2 align-self-end mt-auto flex-1-0-0">
       <slot name="actions"/>
     </v-card-actions>
   </v-card>
@@ -60,10 +60,10 @@ export default {
 
 <style scoped>
 .book-card__image {
-  height: 60% !important;
+  height: 55% !important;
 }
 .book-card__content {
-  height: 30% !important;
+  height: 35% !important;
 }
 @media (max-width: 800px) {
   .book-card__image {
